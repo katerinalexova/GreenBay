@@ -4,7 +4,7 @@ namespace GreenBay.Services
 {
     public interface IUserService
     {
-        ResponseDTO Register(RegisterRequestDTO registerDTO);
-        ResponseDTO Login(LoginRequestDTO loginDTO);
+        UserResponseDTO Register(RegisterRequestDTO registerDTO);
+        UserResponseDTO Login(LoginRequestDTO loginDTO);
     }
 }

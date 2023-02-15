@@ -20,28 +20,28 @@ namespace GreenBay.Services
             _configuration = configuration;
         }
 
-        public ResponseDTO Register(RegisterRequestDTO registerDTO)
+        public UserResponseDTO Register(RegisterRequestDTO registerDTO)
         {
             if (registerDTO == null)
-                return new ResponseDTO() { Status = 400, Message = "Invalid input." };
+                return new UserResponseDTO() { Status = 400, Message = "Invalid input." };
             if (_context.Users.Any(x => x.Username.Equals(registerDTO.Username)))
-                return new ResponseDTO() { Status = 400, Message = "Username is already taken. Please select a different one." };
+                return new UserResponseDTO() { Status = 400, Message = "Username is already taken. Please select a different one." };
 
             RegisterUser(registerDTO);
-            return new ResponseDTO() { Status = 201, Message = "User succesfully registered." };
+            return new UserResponseDTO() { Status = 201, Message = "User succesfully registered." };
         }
 
-        public ResponseDTO Login(LoginRequestDTO loginDTO)
+        public UserResponseDTO Login(LoginRequestDTO loginDTO)
         {
             if(loginDTO == null)
-                return new ResponseDTO() { Status = 400, Message = "Invalid input." };
+                return new UserResponseDTO() { Status = 400, Message = "Invalid input." };
             if (!_context.Users.Any(u => u.Username.Equals(loginDTO.Username)))
-                return new ResponseDTO() { Status = 400, Message = "Username not registered." };
+                return new UserResponseDTO() { Status = 400, Message = "Username not registered." };
             if (!_context.Users.FirstOrDefault(u => u.Username == loginDTO.Username).Password.Equals(loginDTO.Password))
-                return new ResponseDTO() { Status = 400, Message = "Incorrect password." };
+                return new UserResponseDTO() { Status = 400, Message = "Incorrect password." };
 
             var token = CreateToken(loginDTO);
-                return new ResponseDTO() { Status = 200, Message = token };
+                return new UserResponseDTO() { Status = 200, Message = token };
         }
 
         #region Private methods
@@ -81,7 +81,5 @@ namespace GreenBay.Services
         }
 
         #endregion
-
-
     }
 }
