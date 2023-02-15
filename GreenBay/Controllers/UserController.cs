@@ -22,5 +22,12 @@ namespace GreenBay.Controllers
             var response = _userService.Register(registerDTO);
             return StatusCode(response.Status, response.Message);
         }
+
+        [HttpPost("/login")]
+        public IActionResult Login([FromBody] LoginRequestDTO loginDTO)
+        {
+            var response = _userService.Login(loginDTO);
+            return StatusCode(response.Status, response.Message);
+        }
     }
 }
