@@ -7,6 +7,7 @@
         public string Description { get; set; }
         public string PhotoUrl { get; set; }
         public int Price { get; set; }
+        public bool Sold { get; set; } = false;
         public User User { get; set; }
 
         public Item()

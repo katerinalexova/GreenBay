@@ -68,6 +68,7 @@ namespace GreenBay.Services
             };
 
             var keyString = _configuration["Jwt:Key"];
+
             var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(keyString));
 
             var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);

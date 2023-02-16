@@ -1,11 +1,10 @@
 ﻿using GreenBay.Contexts;
 using GreenBay.Models.DTOs.ItemDTO;
-using GreenBay.Models.DTOs.UserDTO;
 using GreenBay.Models.Entities;
 
 namespace GreenBay.Services
 {
-    public class ItemService
+    public class ItemService : IItemService
     {
         private readonly ApplicationDbContext _context;
 
@@ -24,6 +23,17 @@ namespace GreenBay.Services
             CreateItem(createItemRequestDTO);
             return new ItemResponseDTO() { Status = 200, Message = "Item succesfully added" };
         }
+        public ItemResponseDTO ShowAllSellable()
+        {
+            List<Item> sellable = GetAll().Where(x => x.Sold == false).ToList();
+
+            if (sellable.Count == 0)
+                return new ItemResponseDTO() { Status = 200, Message = "Any new products" };
+
+            return new ItemResponseDTO() { Status = 200, Data = sellable };
+        }
+
+
 
         #region Private methods
 
@@ -39,6 +49,10 @@ namespace GreenBay.Services
                 });
 
             _context.SaveChanges();
+        }
+        private List<Item> GetAll()
+        {
+            return _context.Items.ToList();
         }
 
         #endregion
