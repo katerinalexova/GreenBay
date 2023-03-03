@@ -23,6 +23,7 @@ namespace GreenBay.Services
             CreateItem(createItemRequestDTO);
             return new ItemResponseDTO() { Status = 200, Message = "Item succesfully added" };
         }
+
         public ItemResponseDTO ShowAllSellable()
         {
             List<Item> sellable = GetAll().Where(x => x.Sold == false).ToList();
@@ -32,6 +33,20 @@ namespace GreenBay.Services
 
             return new ItemResponseDTO() { Status = 200, Data = sellable };
         }
+
+        public ItemResponseDTO ShowById(int id)
+        {
+            if (id == null)
+                return new ItemResponseDTO() { Status = 200, Message = "Invalid input." };
+
+            var item = GetItem(id);
+            if (item == null)
+                return new ItemResponseDTO() { Status = 404, Message = "Not found." };
+
+            return new ItemResponseDTO() { Status = 200, Data = item };
+        }
+
+
 
 
 
@@ -45,7 +60,9 @@ namespace GreenBay.Services
                     Name = createItemRequestDTO.Name,
                     Description = createItemRequestDTO.Description,
                     PhotoUrl = createItemRequestDTO.PhotoUrl,
-                    Price = createItemRequestDTO.StartingPrice
+                    StartingPrice = createItemRequestDTO.StartingPrice,
+                    Sold = false,
+                    User = _context.Users.FirstOrDefault(x => x.Id.Equals(1))
                 });
 
             _context.SaveChanges();
@@ -53,6 +70,11 @@ namespace GreenBay.Services
         private List<Item> GetAll()
         {
             return _context.Items.ToList();
+        }
+
+        private Item? GetItem(int id)
+        {
+            return _context.Items.FirstOrDefault(x => x.Id.Equals(id));
         }
 
         #endregion

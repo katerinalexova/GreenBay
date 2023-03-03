@@ -6,7 +6,9 @@
         public string Name { get; set; }
         public string Description { get; set; }
         public string PhotoUrl { get; set; }
-        public int Price { get; set; }
+        public int StartingPrice { get; set; }
+        public double? CurrentPrice { get; set; }
+        public double? FinalPrice { get; set; } 
         public bool Sold { get; set; } = false;
         public User User { get; set; }
 

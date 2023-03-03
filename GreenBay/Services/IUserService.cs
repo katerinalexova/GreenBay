@@ -1,4 +1,5 @@
 ﻿using GreenBay.Models.DTOs.UserDTO;
+using GreenBay.Models.Entities;
 
 namespace GreenBay.Services
 {
@@ -6,5 +7,6 @@ namespace GreenBay.Services
     {
         UserResponseDTO Register(RegisterRequestDTO registerDTO);
         UserResponseDTO Login(LoginRequestDTO loginDTO);
+        UserResponseDTO Bid(BidRequestDTO bidRequestDTO, User user);
     }
 }

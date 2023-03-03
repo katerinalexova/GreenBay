@@ -1,6 +1,7 @@
 ﻿using GreenBay.Contexts;
 using GreenBay.Models.DTOs.UserDTO;
 using GreenBay.Models.Entities;
+using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -42,6 +43,23 @@ namespace GreenBay.Services
 
             var token = CreateToken(loginDTO);
                 return new UserResponseDTO() { Status = 200, Message = token };
+        }
+
+        public UserResponseDTO Bid(BidRequestDTO bidRequestDTO, User user)
+        {
+            var item = _context.Items.FirstOrDefault(x => x.Id.Equals(bidRequestDTO));
+
+            if (item == null)
+                return new UserResponseDTO() { Status = 404, Message = "Not found." };
+            if (item.Sold == true)
+                return new UserResponseDTO() { Status = 400, Message = "This item cannot be bought." };
+            if(user.Coins < bidRequestDTO.Bid)
+                return new UserResponseDTO() { Status = 400, Message = "Not enough money to place this bid." };
+            if (bidRequestDTO.Bid <= item.CurrentPrice)
+                return new UserResponseDTO() { Status = 400, Message = "The bid is too low." };
+
+            item.CurrentPrice = bidRequestDTO.Bid;
+                return new UserResponseDTO() { Status = 200, Message = $"The current price of {item.Name} is set to {item.CurrentPrice}" };
         }
 
         #region Private methods

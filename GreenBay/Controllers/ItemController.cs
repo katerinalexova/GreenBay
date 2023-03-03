@@ -33,5 +33,16 @@ namespace GreenBay.Controllers
 
             return Ok(response.Data);
         }
+
+        [HttpGet("/get/{id}")]
+        public IActionResult GetById(int id)
+        {
+            var response = _itemService.ShowById(id);
+
+            if (response.Data == null)
+                return StatusCode(response.Status, response.Message);
+
+            return Ok(response.Data);
+        }
     }
 }

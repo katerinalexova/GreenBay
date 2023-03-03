@@ -6,5 +6,6 @@ namespace GreenBay.Services
     {
         ItemResponseDTO Create(CreateItemRequestDTO createItemRequestDTO);
         ItemResponseDTO ShowAllSellable();
+        ItemResponseDTO ShowById(int id);
     }
 }
